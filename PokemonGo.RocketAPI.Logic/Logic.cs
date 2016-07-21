@@ -112,10 +112,10 @@ namespace PokemonGo.RocketAPI.Logic
                 CatchPokemonResponse caughtPokemonResponse;
                 do
                 {
-                    if (encounterPokemonResponse?.CaptureProbability.CaptureProbability_.First() < 0.4)
+                    if (encounterPokemonResponse?.CaptureProbability.CaptureProbability_.First() < 0.4 && encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp > 400)
                     {
-                        //Throw berry is we can
-                        await UseBerry(pokemon.EncounterId, pokemon.SpawnpointId);
+                        //Throw berry if we can 
+                            await UseBerry(pokemon.EncounterId, pokemon.SpawnpointId);
                     }
 
                     caughtPokemonResponse = await client.CatchPokemon(pokemon.EncounterId, pokemon.SpawnpointId, pokemon.Latitude, pokemon.Longitude, pokeball);
@@ -126,7 +126,7 @@ namespace PokemonGo.RocketAPI.Logic
                 if(_clientSettings.Debug)
                     Logger.Write(caughtPokemonResponse.Status == CatchPokemonResponse.Types.CatchStatus.CatchSuccess ? $"We caught a {pokemon.PokemonId} with CP {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp} using a {pokeball}" : $"{pokemon.PokemonId} with CP {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp} got away while using a {pokeball}..", LogLevel.Info);
                 else
-                    PokemonGo.RocketAPI.Helpers.Utils.PrintConsole(caughtPokemonResponse.Status == CatchPokemonResponse.Types.CatchStatus.CatchSuccess ? $"We caught a {pokemon.PokemonId} with {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp}cp using a(n) {localizeItemName(pokeball.ToString())} and received { caughtPokemonResponse.Scores.Xp.Sum() }xp" : $"Tried to catch {pokemon.PokemonId} with {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp}cp using a(n) {localizeItemName(pokeball.ToString())}, but it got away...", ConsoleColor.DarkCyan);
+                    PokemonGo.RocketAPI.Helpers.Utils.PrintConsole(caughtPokemonResponse.Status == CatchPokemonResponse.Types.CatchStatus.CatchSuccess ? $"We caught a {pokemon.PokemonId} with {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp}cp using a(n) {StringUtils.localizeItemName(pokeball.ToString())} and received { caughtPokemonResponse.Scores.Xp.Sum() }xp" : $"Tried to catch {pokemon.PokemonId} with {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp}cp using a(n) {StringUtils.localizeItemName(pokeball.ToString())}, but it got away...", ConsoleColor.DarkCyan);
 
                 await Task.Delay(5000);
                 await TransferDuplicatePokemon(true);
@@ -166,7 +166,7 @@ namespace PokemonGo.RocketAPI.Logic
                 if(_clientSettings.Debug)
                     Logger.Write($"Transfer {duplicatePokemon.PokemonId} with {duplicatePokemon.Cp} CP", LogLevel.Info);
                 else
-                    PokemonGo.RocketAPI.Helpers.Utils.PrintConsole($"Transfer {duplicatePokemon.PokemonId} with {duplicatePokemon.Cp}", ConsoleColor.DarkYellow);
+                    PokemonGo.RocketAPI.Helpers.Utils.PrintConsole($"Transfer {duplicatePokemon.PokemonId} with {duplicatePokemon.Cp}cp", ConsoleColor.DarkYellow);
                 await Task.Delay(500);
             }
         }
@@ -235,20 +235,6 @@ namespace PokemonGo.RocketAPI.Logic
             else
                 PokemonGo.RocketAPI.Helpers.Utils.PrintConsole($"Use Raspberry. Remaining: {berry.Count}", ConsoleColor.DarkRed);
             await Task.Delay(3000);
-        }
-
-        public string localizeItemName(string unlocalizedName)
-        {
-            if (unlocalizedName == "ITEM_POKE_BALL")
-                return "Poke Ball";
-            if (unlocalizedName == "ITEM_GREAT_BALL")
-                return "Great Ball";
-            if (unlocalizedName == "ITEM_ULTRA_BALL")
-                return "Ultra Ball";
-            if (unlocalizedName == "ITEM_MASTER_BALL")
-                return "Master Ball";
-
-            return "Unkown Item Name";
         }
     }
 }
