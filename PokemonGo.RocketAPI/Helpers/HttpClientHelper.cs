@@ -11,8 +11,13 @@ namespace PokemonGo.RocketAPI.Helpers
 {
     public static class HttpClientHelper
     {
+        private static readonly ISettings _clientSettings;
+
         public static async Task<TResponse> PostFormEncodedAsync<TResponse>(string url, params KeyValuePair<string, string>[] keyValuePairs)
         {
+            if(_clientSettings.Debug)
+                Logger.Write($"Requesting {typeof(TResponse).Name}", LogLevel.Debug);
+
             var handler = new HttpClientHandler()
             {
                 AutomaticDecompression = DecompressionMethods.GZip,
