@@ -1,4 +1,5 @@
 ﻿using PokemonGo.RocketAPI.Logging;
+using System;
 
 namespace PokemonGo.RocketAPI
 {
@@ -19,16 +20,17 @@ namespace PokemonGo.RocketAPI
 			Logger.logger = logger;
 		}
 
-		/// <summary>
-		/// Log a specific message to the logger setup by <see cref="SetLogger(ILogger)"/> .
-		/// </summary>
-		/// <param name="message">The message to log.</param>
-		/// <param name="level">Optional level to log. Default <see cref="LogLevel.Info"/>.</param>
-		public static void Write(string message, LogLevel level = LogLevel.Info)
+        /// <summary>
+        /// Log a specific message to the logger setup by <see cref="SetLogger(ILogger)"/> .
+        /// </summary>
+        /// <param name="message">The message to log.</param>
+        /// <param name="col">Sets the color of the text.</param>
+        /// <param name="level">Optional level to log. Default <see cref="LogLevel.Info"/>.</param>
+        public static void Write(string message, ConsoleColor col, LogLevel level = LogLevel.Info)
 		{
 			if (logger == null)
 				return;
-			logger.Write(message, level);
+			logger.Write(message, col, level);
 		}
 	}
 

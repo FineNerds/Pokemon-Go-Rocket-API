@@ -18,11 +18,11 @@ namespace PokemonGo.RocketAPI.Console
                 }
                 catch (PtcOfflineException)
                 {
-                    Logger.Write("PTC Servers are probably down OR your credentials are wrong. Try google", LogLevel.Error);
+                    Logger.Write("PTC Servers are probably down OR your credentials are wrong. Try google", ConsoleColor.White, LogLevel.Error);
                 }
                 catch (Exception ex)
                 {
-                    Logger.Write($"Unhandled exception: {ex}", LogLevel.Error);
+                    Logger.Write($"Unhandled exception: {ex}", ConsoleColor.White, LogLevel.Error);
                 }
             });
              System.Console.ReadLine();

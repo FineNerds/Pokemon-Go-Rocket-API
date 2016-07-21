@@ -13,18 +13,5 @@ namespace PokemonGo.RocketAPI.Helpers
             var bytes = BitConverter.GetBytes(value);
             return BitConverter.ToUInt64(bytes, 0);
         }
-
-        public static void PrintConsole(string str)
-        {
-            System.Console.WriteLine("[" + DateTime.Now.ToString("h:mm:ss tt") + "] " + str);
-        }
-
-        public static void PrintConsole(string str, ConsoleColor color)
-        {
-            ConsoleColor origColor = System.Console.ForegroundColor;
-            System.Console.ForegroundColor = color;
-            System.Console.WriteLine("[" + DateTime.Now.ToString("h:mm:ss tt") + "] " + str);
-            System.Console.ForegroundColor = origColor;
-        }
     }
 }
