@@ -17,6 +17,8 @@ namespace PokemonGo.RocketAPI.Console
         public double DefaultLatitude => UserSettings.Default.DefaultLatitude;
         public double DefaultLongitude => UserSettings.Default.DefaultLongitude;
 
+        public bool Debug => UserSettings.Default.Debug;
+
         ICollection<KeyValuePair<ItemId, int>> ISettings.itemRecycleFilter
         {
             get
@@ -25,7 +27,9 @@ namespace PokemonGo.RocketAPI.Console
                 return new[]
                 {
                     new KeyValuePair<ItemId, int>(ItemId.ItemPokeBall, 50),
-                    new KeyValuePair<ItemId, int>(ItemId.ItemGreatBall, 50)
+                    new KeyValuePair<ItemId, int>(ItemId.ItemGreatBall, 50),
+                    new KeyValuePair<ItemId, int>(ItemId.ItemUltraBall, 50),
+                    new KeyValuePair<ItemId, int>(ItemId.ItemMasterBall, 50)
                 };
             }
 
